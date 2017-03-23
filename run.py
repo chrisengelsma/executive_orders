@@ -9,11 +9,6 @@ date_format = "%A, %B %d, %Y"
 documents_total = 0
 base_url = "https://en.wikisource.org"
 
-proxies = { 
-  'http': 'http://usmontswpx001.americas.shell.com' ,
-  'https':'http://usmontswpx001.americas.shell.com' ,
-}
-
 def main():
   crawl("/wiki/Executive_Order_1")
   
