@@ -90,25 +90,25 @@ def parse_cite_bar(eo,soup):
   div = soup.find(id='nav_cite_bar')
   links = div.find_all('a')
   links = [link for link in links if 'Signed' not in link.text]
+  cite_bar = div.text.strip()
 
   if links[0] is not None:
     name = links[0].text.split(' ')
     first_name = name[0].decode('utf-8').upper()
     last_name = name[-1].decode('utf-8').upper()
-    eo.author = " ".join([unicode(first),unicode(last)])
+    eo.author = " ".join([unicode(first_name),unicode(last_name)])
+    ind = cite_bar.index(links[0].text)
+    date_and_cite = cite_bar[ind+len(eo.author):].split('\n')
+    eo.signed_date = date_and_cite[0]
     
   for link in links[1:]:
     if 'Stat' in link.text:
       eo.statute = link.text
     if is_int(link.text):
       eo.fr = int(link.text)
-      eo.pdf = link['href']à
+      eo.pdf = link['href']
 
-  cite_bar = div.text.strip()
-  ind = cite_bar.index(eo.author)
-  date_and_cite = cite_bar[ind+len(eo.author):].split('\n')
 
-  eo.signed_date = date_and_cite[0]
 
   for cite in date_and_cite[1:]:
     if 'FR' in cite:
